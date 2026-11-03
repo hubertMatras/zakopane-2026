@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Zakopane Trip 2026</title>
+  <meta name="description" content="Family trip planner: London to Zakopane and back via Prague and Colmar, December 2026.">
+  <meta name="theme-color" content="#1f4e5f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Zakopane">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <h1 id="trip-title">Zakopane</h1>
+      <p id="trip-sub" class="muted"></p>
+      <div id="countdown" class="countdown"></div>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1"></main>
+
+  <nav class="tabs" aria-label="Sections">
+    <button data-tab="today" class="active"><span>☀️</span>Today</button>
+    <button data-tab="plan"><span>🗓️</span>Plan</button>
+    <button data-tab="stays"><span>🏠</span>Stays</button>
+    <button data-tab="drive"><span>🚗</span>Drive</button>
+    <button data-tab="explore"><span>🏔️</span>Explore</button>
+    <button data-tab="lists"><span>✅</span>Lists</button>
+    <button data-tab="info"><span>ℹ️</span>Info</button>
+  </nav>
+
+  <script src="trip-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
