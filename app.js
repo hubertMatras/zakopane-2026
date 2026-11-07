@@ -8,6 +8,7 @@
   const dirUrl = (q) => "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(q);
   const pill = (s) => s ? `<span class="pill ${esc(s)}">${esc({ booked: "Booked", tbc: "Pending", todo: "To book", proposed: "Proposed", idea: "Idea", check: "Check dates", warn: "Likely closed" }[s] || s)}</span>` : "";
   const val = (v) => v ? esc(v) : `<span class="missing">to add</span>`;
+  const field = (label, v) => v === null ? "" : `<dt>${label}</dt><dd>${val(v)}</dd>`;
   const fmtDate = (iso) => new Date(iso + "T12:00:00").toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
   const todayIso = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
 
@@ -17,19 +18,27 @@
   };
 
   // ---------- header ----------
-  document.getElementById("trip-title").textContent = T.title;
-  document.getElementById("trip-sub").textContent = T.subtitle;
+  document.getElementById("trip-kicker").textContent = T.kicker;
+  document.getElementById("trip-title").textContent = T.headline;
+  const stops = T.subtitle.split("→").map((s) => s.trim());
+  document.getElementById("trip-route").innerHTML = stops
+    .map((s, i) => `<span class="${s === T.headline ? "home" : ""}">${esc(s)}</span>${i < stops.length - 1 ? '<span class="sep">→</span>' : ""}`)
+    .join("");
+  document.getElementById("trip-stats").textContent = [`${T.people.length} travellers`, `${T.days.length} days`, ...T.stats].join("  ·  ");
+
+  const tile = (n, label) => `<div class="tile"><b>${n}</b><small>${label}</small></div>`;
   function countdown() {
     const now = new Date(), dep = new Date(T.departure), back = new Date(T.returnHome);
-    let txt;
+    const el = document.getElementById("countdown");
     if (now < dep) {
-      const days = Math.ceil((dep - now) / 86400000);
-      txt = `🚗 ${days} day${days === 1 ? "" : "s"} until we leave London`;
+      const mins = Math.floor((dep - now) / 60000);
+      el.innerHTML = tile(Math.floor(mins / 1440), "days") + tile(Math.floor((mins % 1440) / 60), "hours") + tile(mins % 60, "mins") +
+        `<span class="caption">until we leave<br>London 🚗</span>`;
     } else if (now <= back) {
-      const n = Math.floor((now - dep) / 86400000) + 1;
-      txt = `📍 Day ${n} of ${T.days.length}`;
-    } else txt = "🏡 Welcome home";
-    document.getElementById("countdown").textContent = txt;
+      const day = T.days.find((d) => d.date === todayIso());
+      const n = T.days.indexOf(day) + 1;
+      el.innerHTML = tile(n || "·", "of " + T.days.length) + `<span class="caption live">${day ? esc(day.title) : "On the road"}</span>`;
+    } else el.innerHTML = `<span class="caption live">Welcome home 🏡</span>`;
   }
 
   // ---------- render pieces ----------
@@ -48,11 +57,11 @@
       <div class="row"><h3>${esc(s.name)}</h3>${pill(s.status)}</div>
       <p class="muted">${esc(s.dates)}</p>
       <dl class="kv">
-        <dt>Address</dt><dd>${val(s.address)}</dd>
-        <dt>Check-in</dt><dd>${val(s.checkIn)}</dd>
-        <dt>Check-out</dt><dd>${val(s.checkOut)}</dd>
-        <dt>Booking ref</dt><dd>${val(s.ref)}</dd>
-        <dt>Phone</dt><dd>${s.phone ? `<a href="tel:${esc(s.phone.replace(/\s/g, ""))}">${esc(s.phone)}</a>` : val("")}</dd>
+        ${field("Address", s.address)}
+        ${field("Check-in", s.checkIn)}
+        ${field("Check-out", s.checkOut)}
+        ${field("Booking ref", s.ref)}
+        ${s.phone === null ? "" : `<dt>Phone</dt><dd>${s.phone ? `<a href="tel:${esc(s.phone.replace(/\s/g, ""))}">${esc(s.phone)}</a>` : val("")}</dd>`}
       </dl>
       ${s.notes ? `<p class="muted" style="margin-top:8px">${esc(s.notes)}</p>` : ""}
       <a class="btn" href="${mapUrl(s.mapQuery)}" target="_blank" rel="noopener">📍 Map</a>
@@ -131,7 +140,6 @@
         }
       }
       html += weatherSection();
-      html += linksSection();
       return html;
     },
     plan() {
@@ -143,8 +151,8 @@
     },
     drive() {
       return `<section><h2 class="section-title">Route</h2>
-        <div class="card"><h3>Outbound: ferry</h3><p>London → Dover → Calais → Belgium → Germany → Poland → Zakopane</p><p class="muted">About 1,750 km over 3 days</p>
-          <a class="btn" href="https://www.google.com/maps/dir/London/Dover/Calais/Erfurt/Krak%C3%B3w/Zakopane" target="_blank" rel="noopener">🗺️ Full route</a></div>
+        <div class="card"><h3>Outbound: DFDS ferry, booked</h3><p>London → Dover → Dunkirk → Belgium → Dortmund → Kassel → Leipzig (night) → Wrocław → Kraków → Zakopane</p><p class="muted">About 1,750 km over 2 days, roughly 9h of driving each day</p>
+          <a class="btn" href="https://www.google.com/maps/dir/London/Dover/Dunkirk/Dortmund/Kassel/Westringstr.+83,+04435+Schkeuditz/Wroc%C5%82aw/Krak%C3%B3w/Zakopane" target="_blank" rel="noopener">🗺️ Full route</a></div>
         <div class="card"><h3>Return: Eurotunnel</h3><p>Zakopane → Prague → Colmar → Calais → Folkestone → London</p><p class="muted">About 2,000 km over 3 days. Three long days in a row: share the driving.</p>
           <a class="btn" href="https://www.google.com/maps/dir/Zakopane/Prague/Colmar/Calais/Folkestone/London" target="_blank" rel="noopener">🗺️ Full route</a></div>
       </section>
@@ -166,9 +174,12 @@
           <br><a class="btn" href="https://lawiny.topr.pl/" target="_blank" rel="noopener">⚠️ TOPR conditions</a></div>
       </section>`;
     },
+    games() {
+      return window.Games.html();
+    },
     lists() {
       return checklist("docs", "Documents", T.documents) + checklist("car", "Car kit", T.carKit) + checklist("pack", "Packing", T.packing) +
-        `<p class="muted" style="font-size:.8rem">Ticks are saved on this phone only. Use the shared sheet for anything the whole family edits.</p>`;
+        `<p class="muted" style="font-size:.8rem">Ticks are saved on this phone only.</p>`;
     },
     info() {
       return `<section><h2 class="section-title">Who's who</h2>
@@ -187,24 +198,13 @@
     }
   };
 
-  function linksSection() {
-    const L = T.links;
-    const items = [
-      ["📊 Shared sheet (expenses, notes)", L.sharedSheet],
-      ["💷 Splitwise", L.splitwise],
-      ["💬 Family WhatsApp", L.whatsappGroup]
-    ];
-    return `<section><h2 class="section-title">Shared</h2><div class="card">
-      ${items.map(([label, url]) => url ? `<a class="btn" href="${esc(url)}" target="_blank" rel="noopener">${label}</a>` : `<p>${label}: <span class="missing">link to add</span></p>`).join("")}
-    </div></section>`;
-  }
-
   // ---------- routing ----------
   function show(tab) {
     if (!views[tab]) tab = "today";
     document.querySelectorAll(".tabs button").forEach((b) => b.classList.toggle("active", b.dataset.tab === tab));
     view.innerHTML = views[tab]() + `<p class="footer-note">Works offline once opened. Last data update: edit trip-data.js</p>`;
     if (tab === "today") loadWeather();
+    if (tab === "games") window.Games.mount(view);
     window.scrollTo(0, 0);
     store.set("tab", tab);
   }
@@ -224,7 +224,7 @@
   });
 
   countdown();
-  setInterval(countdown, 60000);
+  setInterval(countdown, 20000);
   show(location.hash.slice(1) || "today");
 
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {

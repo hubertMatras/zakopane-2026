@@ -11,15 +11,50 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="top">
-    <div class="top-inner">
+  <header class="hero">
+    <div class="stars" aria-hidden="true"></div>
+    <div class="moon" aria-hidden="true"></div>
+
+    <div class="hero-inner">
+      <p class="kicker" id="trip-kicker"></p>
       <h1 id="trip-title">Zakopane</h1>
-      <p id="trip-sub" class="muted"></p>
-      <div id="countdown" class="countdown"></div>
+      <p class="route" id="trip-route"></p>
+      <div id="countdown" class="countdown" aria-live="polite"></div>
+      <p class="stats" id="trip-stats"></p>
     </div>
+
+    <svg class="peaks" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="far" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5d5e9e"/><stop offset="1" stop-color="#363a70"/></linearGradient>
+        <linearGradient id="mid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c3a6b"/><stop offset="1" stop-color="#1a2348"/></linearGradient>
+        <radialGradient id="glow"><stop offset="0" stop-color="#ffcf70" stop-opacity=".9"/><stop offset="1" stop-color="#ffcf70" stop-opacity="0"/></radialGradient>
+      </defs>
+      <path fill="url(#far)" d="M0 300 L0 170 L80 120 L150 150 L230 80 L300 130 L380 60 L440 110 L520 40 L600 120 L680 70 L760 130 L840 50 L920 110 L1000 75 L1080 135 L1200 90 L1200 300 Z"/>
+      <path fill="#e9ecff" opacity=".55" d="M380 60 L398 80 L388 78 L380 86 L372 77 L364 79 Z M520 40 L542 66 L530 63 L520 72 L510 62 L500 66 Z M840 50 L862 75 L850 72 L840 80 L831 71 L820 74 Z"/>
+      <path fill="url(#mid)" d="M0 300 L0 205 L100 155 L170 188 L260 122 L330 172 L420 108 L470 142 L555 82 L590 112 L640 152 L720 126 L800 178 L880 116 L960 166 L1060 130 L1200 182 L1200 300 Z"/>
+      <path fill="#f4f6ff" d="M260 122 L280 137 L270 136 L260 144 L250 135 L241 137 Z M420 108 L440 123 L430 122 L421 130 L411 121 L402 122 Z M555 82 L578 100 L566 98 L556 108 L546 97 L534 99 Z M880 116 L898 130 L889 129 L880 136 L871 128 L862 130 Z"/>
+      <path class="ground" d="M0 300 L0 252 C200 228 380 262 600 246 C820 230 1000 258 1200 240 L1200 300 Z"/>
+      <g fill="#14302a">
+        <path d="M268 252 L282 214 L296 252 Z M272 232 L282 202 L292 232 Z"/>
+        <path d="M304 254 L315 224 L326 254 Z M307 238 L315 214 L323 238 Z"/>
+        <path d="M884 250 L898 212 L912 250 Z M888 230 L898 200 L908 230 Z"/>
+        <path d="M918 252 L929 222 L940 252 Z"/>
+      </g>
+      <circle cx="812" cy="238" r="26" fill="url(#glow)"/>
+      <rect x="795" y="230" width="36" height="22" fill="#3b2a22"/>
+      <path d="M789 232 L813 212 L837 232 Z" fill="#4a3329"/>
+      <path d="M787 233 L813 210 L839 233" fill="none" stroke="#f4f6ff" stroke-width="4" stroke-linejoin="round"/>
+      <rect x="806" y="237" width="9" height="8" fill="#ffd27a"/>
+    </svg>
+
+    <div class="snow s1" aria-hidden="true"></div>
+    <div class="snow s2" aria-hidden="true"></div>
   </header>
 
   <main id="view" tabindex="-1"></main>
@@ -30,11 +65,13 @@
     <button data-tab="stays"><span>🏠</span>Stays</button>
     <button data-tab="drive"><span>🚗</span>Drive</button>
     <button data-tab="explore"><span>🏔️</span>Explore</button>
+    <button data-tab="games"><span>🎮</span>Games</button>
     <button data-tab="lists"><span>✅</span>Lists</button>
     <button data-tab="info"><span>ℹ️</span>Info</button>
   </nav>
 
   <script src="trip-data.js"></script>
+  <script src="games.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

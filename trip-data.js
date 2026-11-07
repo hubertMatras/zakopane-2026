@@ -3,24 +3,22 @@
   ---------
   This is the only file you need to edit to update the app.
   Status values: "booked", "tbc" (to be confirmed / not booked yet), "todo".
+  Stay fields: "" shows "to add", null hides the field.
   Dates use YYYY-MM-DD. Times use 24h "HH:MM".
   To reuse the app for another trip, copy the folder and rewrite this file.
 */
 window.TRIP = {
   title: "Zakopane Christmas 2026",
-  subtitle: "London → Zakopane → Prague → Colmar → London",
-  departure: "2026-12-18T06:00:00",
+  subtitle: "London → Leipzig → Zakopane → Prague → Colmar → London",
+  // Header: big headline, small line above it, extra facts under the countdown.
+  headline: "Zakopane",
+  kicker: "Family Christmas · December 2026",
+  stats: ["6 countries", "~3,750 km"],
+  departure: "2026-12-19T05:00:00",
   returnHome: "2026-12-29T22:00:00",
-  // Paste the shared Google Sheet / Splitwise links here once created.
-  links: {
-    sharedSheet: "",
-    splitwise: "",
-    whatsappGroup: ""
-  },
-
   people: [
-    { name: "Hubert", role: "Driver", travel: "Car from London", phone: "" },
-    { name: "Iwona", role: "Co-driver", travel: "Car from London", phone: "" },
+    { name: "Hubert", role: "The boss", travel: "Car from London. DFDS Dover → Dunkirk 19.12, night in Leipzig", phone: "" },
+    { name: "Iwona", role: "Co-driver", travel: "Car from London. DFDS Dover → Dunkirk 19.12, night in Leipzig", phone: "" },
     { name: "Zuza", role: "", travel: "Train within Poland, meets us in Zakopane", phone: "" },
     { name: "Muhammad", role: "", travel: "Flight to Kraków (KRK) once Polish visa is approved", phone: "" }
   ],
@@ -30,9 +28,8 @@ window.TRIP = {
     { item: "Muhammad: Polish (Schengen) visa", status: "tbc", note: "Waiting for approval. Most bookings below depend on this." },
     { item: "Muhammad: flight to Kraków (KRK)", status: "todo", note: "Book after visa approval. Kraków to Zakopane is about 2h by bus or car." },
     { item: "Zuza: train to Zakopane", status: "todo", note: "PKP Intercity / Polregio. Book on intercity.pl" },
-    { item: "Ferry Dover → Calais (18.12)", status: "todo", note: "DFDS, P&O or Irish Ferries. Compare on directferries.co.uk" },
-    { item: "Hotel night 1: Germany (Erfurt area)", status: "todo", note: "Proposed stop, 18.12" },
-    { item: "Hotel night 2: Kraków", status: "todo", note: "Proposed stop, 19.12" },
+    { item: "Ferry DFDS Dover → Dunkirk (19.12, 08:00)", status: "booked", note: "Arrives Dunkirk 11:00 local time. Add booking ref in Stays notes" },
+    { item: "REGIOHOTEL Leipzig West (19.12 → 20.12)", status: "booked", note: "Late arrival likely. Let the hotel know" },
     { item: "Kurantówka, Zakopane (20.12 to 27.12)", status: "booked", note: "Add booking ref and host phone below in Stays" },
     { item: "Hotel: Prague (27.12)", status: "todo", note: "Waiting for visa decision" },
     { item: "Hotel: Colmar (28.12)", status: "todo", note: "Check 2026 market end date first" },
@@ -45,22 +42,13 @@ window.TRIP = {
 
   stays: [
     {
-      name: "Night 1: Germany (proposed: Erfurt)",
-      dates: "18.12 → 19.12",
-      status: "todo",
-      address: "",
-      mapQuery: "Erfurt, Germany",
-      checkIn: "", checkOut: "", ref: "", phone: "",
-      notes: "About 8h from Calais. Erfurt Christmas market on Domplatz (check 2026 dates)."
-    },
-    {
-      name: "Night 2: Kraków (proposed)",
-      dates: "19.12 → 20.12",
-      status: "todo",
-      address: "",
-      mapQuery: "Kraków, Poland",
-      checkIn: "", checkOut: "", ref: "", phone: "",
-      notes: "Optional evening at the Kraków Christmas market on the Main Square (Rynek Główny)."
+      name: "REGIOHOTEL Leipzig West",
+      dates: "19.12 → 20.12 (1 night)",
+      status: "booked",
+      address: "Westringstr. 83, 04435 Schkeuditz, Germany",
+      mapQuery: "REGIOHOTEL Leipzig West, Westringstr. 83, 04435 Schkeuditz, Germany",
+      checkIn: "From 15:00", checkOut: "Until 11:00", ref: "", phone: "+49 5322 950130",
+      notes: "Hubert and Iwona. Arrival likely 20:00 to 21:00 after about 9h from Dunkirk. Confirm late check-in and parking with the hotel."
     },
     {
       name: "Kurantówka, Zakopane",
@@ -68,8 +56,8 @@ window.TRIP = {
       status: "booked",
       address: "Tadeusza Brzozowskiego 19, 34-500 Zakopane, Poland",
       mapQuery: "Tadeusza Brzozowskiego 19, 34-500 Zakopane, Poland",
-      checkIn: "", checkOut: "", ref: "", phone: "",
-      notes: "Add check-in time, booking ref, host phone and parking info."
+      checkIn: null, checkOut: null, ref: null, phone: "+48 660 836 000",
+      notes: "Call the host with the expected arrival time on 20.12."
     },
     {
       name: "Prague",
@@ -94,32 +82,27 @@ window.TRIP = {
   // Day by day. "proposed" days are a suggestion until booked.
   days: [
     {
-      date: "2026-12-18", title: "London → Dover → Calais → Germany", place: "Erfurt", status: "proposed",
-      drive: "~2h to Dover, ferry ~1h30, then ~810 km / 8h Calais → Erfurt",
+      date: "2026-12-19", title: "London → Dover → Dunkirk → Leipzig", place: "REGIOHOTEL Leipzig West, Westringstr. 83, 04435 Schkeuditz", status: "booked",
+      drive: "~2h to Dover, DFDS ferry 08:00 → 11:00 Dunkirk (local), then ~850 km / 9h to Schkeuditz",
       items: [
-        "Leave London early (about 06:00) to make a morning ferry",
-        "Ferry Dover → Calais. Arrive 60 to 90 mins before departure for checks",
-        "Calais → Belgium → Cologne → Kassel → Erfurt",
-        "Swap drivers every 2h. Fuel is usually cheaper in Belgium than France"
+        "Leave London about 04:30 to 05:00. Check the DFDS booking for the check-in cut-off",
+        "DFDS ferry Dover 08:00 → Dunkirk 11:00 local time (clocks go 1h forward)",
+        "Dunkirk → Belgium → Dortmund → Kassel → Leipzig",
+        "Swap drivers every 2h. Fuel is usually cheaper in Belgium than France",
+        "Check in at REGIOHOTEL Leipzig West, Schkeuditz (late arrival)"
       ]
     },
     {
-      date: "2026-12-19", title: "Erfurt → Dresden → Wrocław → Kraków", place: "Kraków", status: "proposed",
-      drive: "~750 km / 7h30",
+      date: "2026-12-20", title: "Leipzig → Wrocław → Kraków → Zakopane", place: "Tadeusza Brzozowskiego 19, 34-500 Zakopane", status: "booked",
+      drive: "~760 km / 8h to 9h via Dresden, Görlitz, Wrocław, Katowice, Kraków",
       items: [
+        "Check out early (about 08:00). It is a Sunday, so no German lorry traffic",
         "Cross into Poland at Görlitz / Zgorzelec",
         "A4 motorway. Toll section Katowice → Kraków",
-        "Evening: Kraków Christmas market on the Main Square"
-      ]
-    },
-    {
-      date: "2026-12-20", title: "Kraków → Zakopane, check in", place: "Zakopane", status: "booked",
-      drive: "~110 km / 2h to 3h (Zakopianka is often congested on weekends)",
-      items: [
-        "Leave Kraków in the morning, avoid the Saturday/Sunday peak",
-        "Check in at Kurantówka",
+        "Kraków → Zakopane on the Zakopianka (S7/DK47): often congested on weekends",
+        "Check in at Kurantówka. Tell the host the expected arrival time",
         "Zuza arrives by train (time TBC)",
-        "Food shop for the week. Shops close early on 24.12 and are closed 25.12 and 26.12"
+        "Food shop for the week by 23.12: shops are closed 24.12 (public holiday since 2025), 25.12 and 26.12. 20.12 should be a trading Sunday, but check"
       ]
     },
     {
@@ -136,7 +119,7 @@ window.TRIP = {
     },
     {
       date: "2026-12-24", title: "Wigilia (Christmas Eve)", place: "Zakopane", status: "idea",
-      items: ["Shops close early afternoon", "Wigilia dinner at the first star", "Pasterka (midnight mass), e.g. Sanktuarium na Krzeptówkach or the church on Krupówki"]
+      items: ["Public holiday: shops closed (since 2025)", "Wigilia dinner at the first star", "Pasterka (midnight mass), e.g. Sanktuarium na Krzeptówkach or the church on Krupówki"]
     },
     {
       date: "2026-12-25", title: "Christmas Day", place: "Zakopane", status: "idea",
@@ -258,7 +241,7 @@ window.TRIP = {
     "European breakdown cover details",
     "GHIC / EHIC cards",
     "Travel insurance (winter sports cover if skiing)",
-    "Ferry and Eurotunnel tickets",
+    "DFDS ferry booking (Dover → Dunkirk) and Eurotunnel ticket",
     "Hotel confirmations (offline copies)",
     "Bank cards with no foreign fees + some PLN, CZK, EUR cash"
   ],
