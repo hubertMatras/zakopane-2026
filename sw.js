@@ -1,5 +1,5 @@
 // Offline support. Bump VERSION after editing any file so phones pick up the change.
-const VERSION = "v6";
+const VERSION = "v7";
 const SHELL = ["./", "index.html", "styles.css", "app.js", "games.js", "trip-data.js", "manifest.webmanifest", "icon.svg", "icon-192.png", "icon-512.png"];
 
 self.addEventListener("install", (e) => {

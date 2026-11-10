@@ -87,6 +87,15 @@
     </section>`;
   }
 
+  function expensesCard() {
+    if (!T.expensesUrl) return "";
+    return `<section><h2 class="section-title">Expenses</h2><div class="card">
+      <p>Log what you pay for (fuel, tolls, food, tickets) so we can split it fairly at the end.</p>
+      <a class="btn" href="${esc(T.expensesUrl)}" target="_blank" rel="noopener">💷 Open expense tracker</a>
+      <p class="muted" style="font-size:.8rem;margin-top:8px">Google Sheet. Needs internet; opens in the Sheets app if installed.</p>
+    </div></section>`;
+  }
+
   function weatherSection() {
     return `<section><h2 class="section-title">Weather</h2>
       <div class="weather-grid" id="wx">${T.weather.map((w) => `<div class="card wx" data-wx="${esc(w.name)}"><h3>${esc(w.name)}</h3><p class="muted">Loading…</p></div>`).join("")}</div>
@@ -128,6 +137,7 @@
         if (visa && visa.status !== "booked") {
           html += `<div class="card notice"><strong>Waiting on Muhammad's visa.</strong> Prague, Colmar and Muhammad's flight are on hold until it is approved.</div>`;
         }
+        html += expensesCard();
         html += `<section><h2 class="section-title">First day</h2>${dayCard(T.days[0], false)}</section>`;
         html += bookingsCard();
       } else if (t > last) {
@@ -139,6 +149,7 @@
           if (T.days[i + 1]) html += `<section><h2 class="section-title">Tomorrow</h2>${dayCard(T.days[i + 1], false)}</section>`;
         }
       }
+      if (t >= first) html += expensesCard();
       html += weatherSection();
       return html;
     },
@@ -191,7 +202,8 @@
       </div></section>
       <section><h2 class="section-title">Money</h2><div class="card"><ul>
         <li>Poland: złoty (PLN)</li><li>Czech Republic: koruna (CZK)</li><li>Germany, Belgium, France: euro (EUR)</li>
-        <li>Pay in local currency when a card machine asks, not GBP</li></ul></div></section>
+        <li>Pay in local currency when a card machine asks, not GBP</li></ul>
+        ${T.expensesUrl ? `<a class="btn" href="${esc(T.expensesUrl)}" target="_blank" rel="noopener">💷 Expense tracker</a>` : ""}</div></section>
       <section><h2 class="section-title">Useful links</h2><div class="card">
         ${T.usefulLinks.map((l) => `<p><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a></p>`).join("")}
       </div></section>`;

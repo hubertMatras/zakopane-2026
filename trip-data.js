@@ -14,6 +14,8 @@ window.TRIP = {
   headline: "Zakopane",
   kicker: "Family Christmas · December 2026",
   stats: ["6 countries", "~3,750 km"],
+  // Shared Google Sheet for trip expenses.
+  expensesUrl: "https://docs.google.com/spreadsheets/d/1BZSKl0PJ4PCewGORK6fU2sJ790K8vk39LWITIlis9GM/edit?usp=sharing",
   departure: "2026-12-19T05:00:00",
   returnHome: "2026-12-29T22:00:00",
   people: [
@@ -30,7 +32,7 @@ window.TRIP = {
     { item: "Zuza: train to Zakopane", status: "todo", note: "PKP Intercity / Polregio. Book on intercity.pl" },
     { item: "Ferry DFDS Dover → Dunkirk (19.12, 08:00)", status: "booked", note: "Arrives Dunkirk 11:00 local time. Add booking ref in Stays notes" },
     { item: "REGIOHOTEL Leipzig West (19.12 → 20.12)", status: "booked", note: "Late arrival likely. Let the hotel know" },
-    { item: "Kurantówka, Zakopane (20.12 to 27.12)", status: "booked", note: "Add booking ref and host phone below in Stays" },
+    { item: "Kurantówka, Zakopane (20.12 to 27.12)", status: "booked", note: "Host: +48 660 836 000" },
     { item: "Hotel: Prague (27.12)", status: "todo", note: "Waiting for visa decision" },
     { item: "Hotel: Colmar (28.12)", status: "todo", note: "Check 2026 market end date first" },
     { item: "Eurotunnel Calais → Folkestone (29.12)", status: "todo", note: "eurotunnel.com. Prices rise closer to the date" },
